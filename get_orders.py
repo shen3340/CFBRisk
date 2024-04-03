@@ -1,7 +1,7 @@
 import requests
 
 # URL of the API
-url = "https://collegefootballrisk.com/api/territories?day=2&season=4"
+url = "https://collegefootballrisk.com/api/territories?day=3&season=4"
 
 # Send a GET request to the API
 response = requests.get(url)
@@ -15,7 +15,7 @@ if response.status_code == 200:
     added_names = set()
 
     # Filter the data where the owner is "Shark"
-    relevant_data_shark = [item["name"] for item in data if item.get("owner") == "Shark"]
+    relevant_data_shark = [item["name"] for item in data if item.get("owner") == "Shark" and not all(neighbor.get("owner") == "Shark" for neighbor in item.get("neighbors", []))]
     added_names.update(relevant_data_shark)
 
     # Filter the data where "Shark" appears at least once in the "neighbors" block but exclude items owned by "Shark"
