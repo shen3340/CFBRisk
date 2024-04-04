@@ -1,7 +1,7 @@
 import requests
 
 # URL of the API
-url = "https://collegefootballrisk.com/api/territories?day=3&season=4"
+url = "https://collegefootballrisk.com/api/territories?day=4&season=4"
 
 # Send a GET request to the API
 response = requests.get(url)
@@ -22,7 +22,7 @@ if response.status_code == 200:
     relevant_data_neighbors = []
     for item in data:
         if item.get("owner") != "Shark" and any(neighbor.get("owner") == "Shark" for neighbor in item.get("neighbors", [])):
-            if item["name"] not in added_names:
+            if item["name"] not in added_names and item["name"] != "Bermuda":
                 relevant_data_neighbors.append(item["name"])
                 added_names.add(item["name"])
 
@@ -30,9 +30,9 @@ if response.status_code == 200:
     combined_data = sorted(relevant_data_shark + relevant_data_neighbors)
 
     # Save the combined relevant data to a single .txt file
-    with open("legal_moves_day_3.txt", "w") as file:
+    with open("legal_moves_day_4.txt", "w") as file:
         for name in combined_data:
             file.write(name + "\n")
-        print("Combined data saved to legal_moves_day_3.txt")
+        print("Combined data saved to legal_moves_day_4.txt")
 else:
     print("Failed to fetch data from the API")
